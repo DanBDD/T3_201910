@@ -3,11 +3,11 @@ package model.data_structures;
 import java.util.Iterator;
 
 public class Pila<T> implements IStack<T> {
-	
+
 	private Nodo<T> primerNodo ;
-	
+
 	private int numElementos;
-	
+
 	@Override
 	public Iterator<T> iterator() {
 
@@ -31,13 +31,22 @@ public class Pila<T> implements IStack<T> {
 	@Override
 	public void push(T t) {
 		// TODO Auto-generated method stub
-		
+		if(primerNodo==null){
+			primerNodo = new Nodo<T>(t);
+		}
+		else 
+		{
+			Nodo<T> p = new Nodo<T>(t);
+			p.cambiarSiguiente(primerNodo);
+			primerNodo=p;
+		}
 	}
 
 	@Override
 	public T pop() {
-		// TODO Auto-generated method stub
-		return null;
+		T elem = primerNodo.darElem();
+		primerNodo=primerNodo.darSiguiente();
+		return elem;
 	}
 
 
