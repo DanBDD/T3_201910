@@ -102,6 +102,8 @@ public class Controller {
 				String description = nextLineQueue[15];
 				movingViolationsQueue.enqueue(new VOMovingViolations(idObjeto, location, fecha, totalObjeto, indicator, description));
 				movingViolationsStack.push(new VOMovingViolations(idObjeto, location, fecha, totalObjeto, indicator, description));
+				System.out.println(movingViolationsStack.size());
+
 			}
 			
 			CSVReader lector2 = new CSVReader(new FileReader(ruta2));

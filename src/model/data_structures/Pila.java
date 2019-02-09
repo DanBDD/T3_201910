@@ -8,6 +8,10 @@ public class Pila<T> implements IStack<T> {
 
 	private int numElementos;
 
+	public Pila()
+	{
+		primerNodo=null;
+	}
 	@Override
 	public Iterator<T> iterator() {
 
@@ -40,12 +44,14 @@ public class Pila<T> implements IStack<T> {
 			p.cambiarSiguiente(primerNodo);
 			primerNodo=p;
 		}
+		numElementos++;
 	}
 
 	@Override
 	public T pop() {
 		T elem = primerNodo.darElem();
 		primerNodo=primerNodo.darSiguiente();
+		numElementos--;
 		return elem;
 	}
 
