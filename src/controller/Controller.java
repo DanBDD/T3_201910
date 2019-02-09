@@ -1,9 +1,16 @@
 package controller;
 
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.Scanner;
 
+import com.opencsv.CSVReader;
+
+import model.data_structures.Cola;
 import model.data_structures.IQueue;
 import model.data_structures.IStack;
+import model.data_structures.Pila;
 import model.vo.VODaylyStatistic;
 import model.vo.VOMovingViolations;
 import view.MovingViolationsManagerView;
@@ -22,13 +29,22 @@ public class Controller {
 	 */
 	private IStack<VOMovingViolations> movingViolationsStack;
 
-
+	/**
+	 * Ruta para el archivo con los datos de Febrero
+	 */
+	private static final String ruta1 = "./data/Moving_Violations_Issued_in_February_2018_ordered.csv";
+	
+	/**
+	 * Ruta para el archivo con los datos de Enero
+	 */
+	private static final String ruta2 = "./data/Moving_Violations_Issued_in_January_2018_ordered.csv";
+	
 	public Controller() {
 		view = new MovingViolationsManagerView();
 		
 		//TODO, inicializar la pila y la cola
-		movingViolationsQueue = null;
-		movingViolationsStack = null;
+		movingViolationsQueue = new Cola<>();
+		movingViolationsStack = new Pila<>();
 	}
 	
 	public void run() {
@@ -71,16 +87,56 @@ public class Controller {
 	
 
 	public void loadMovingViolations() {
-		// TODO
+		
+		try {
+			CSVReader lector = new CSVReader(new FileReader(ruta1));
+			String[] nextLineQueue = lector.readNext();
+			while((nextLineQueue = lector.readNext()) != null){
+				String id = nextLineQueue[0];
+				int idObjeto = Integer.parseInt(id);
+				String location = nextLineQueue[2];
+				String fecha = nextLineQueue[14];
+				String total = nextLineQueue[9];
+				int totalObjeto = Integer.parseInt(total);
+				String indicator = nextLineQueue[12];
+				String description = nextLineQueue[15];
+				movingViolationsQueue.enqueue(new VOMovingViolations(idObjeto, location, fecha, totalObjeto, indicator, description));
+				movingViolationsStack.push(new VOMovingViolations(idObjeto, location, fecha, totalObjeto, indicator, description));
+			}
+			
+			CSVReader lector2 = new CSVReader(new FileReader(ruta2));
+			String[] nextLineStack = lector2.readNext();
+			while((nextLineStack = lector2.readNext()) != null){
+				String id = nextLineStack[0];
+				int idObjeto = Integer.parseInt(id);
+				String location = nextLineStack[2];
+				String fecha = nextLineStack[14];
+				String total = nextLineStack[9];
+				int totalObjeto = Integer.parseInt(total);
+				String indicator = nextLineStack[12];
+				String description = nextLineStack[15];
+				movingViolationsQueue.enqueue(new VOMovingViolations(idObjeto, location, fecha, totalObjeto, indicator, description));
+				movingViolationsStack.push(new VOMovingViolations(idObjeto, location, fecha, totalObjeto, indicator, description));
+			}
+		} catch (FileNotFoundException e) {
+			
+			e.printStackTrace();
+		} catch (IOException e) {
+	
+			e.printStackTrace();
+		}
+		
 	}
 	
 	public IQueue <VODaylyStatistic> getDailyStatistics () {
-		// TODO
-		return null;
+		Cola<VODaylyStatistic> cola = new Cola<VODaylyStatistic>();
+		
+		return cola;
 	}
 	
 	public IStack <VOMovingViolations> nLastAccidents(int n) {
-		// TODO
-		return null;
+		Pila<VOMovingViolations> pila = new Pila<VOMovingViolations>();
+		
+		return pila;
 	}
 }
