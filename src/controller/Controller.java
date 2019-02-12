@@ -190,7 +190,11 @@ public class Controller {
 		int cont = 0;
 		
 		while(it.hasNext() && cont<n){
-			
+			VOMovingViolations actual = it.next();
+			if(actual.getAccidentIndicator().equals("Yes")){
+				pila.push(actual);
+				cont++;
+			}
 		}
 		
 		return pila;
