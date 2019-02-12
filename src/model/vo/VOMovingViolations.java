@@ -5,18 +5,45 @@ package model.vo;
  */
 public class VOMovingViolations {
 
+	/**
+	 * Atributo que da el ID de la infracción
+	 */
 	private int id;
 	
+	/**
+	 * Atributo que da la ubicación de la infracción
+	 */
 	private String location;
 	
+	/**
+	 * Atributo que da la fecha de la infracción
+	 */
 	private String date;
 	
+	/**
+	 * Atributo que da el total a pagar por infracción (FINEAMT)
+	 */
 	private int total;
 	
+	/**
+	 * Atributo que da si hubo accidente o no
+	 */
 	private String accidentIndicator;
 	
+	/**
+	 * Atributo que da la descripción de la infracción
+	 */
 	private String description;
 	
+	/**
+	 * Constructor
+	 * @param pId id infracción
+	 * @param pLoc ubicación infracción
+	 * @param pDate fecha infracción
+	 * @param pTotal total a pagar por infracción
+	 * @param pIndicator indicador de infracción
+	 * @param pDescription descripcion de infracción
+	 */
 	public VOMovingViolations(int pId, String pLoc, String pDate, int pTotal, String pIndicator, String pDescription){
 		
 		id= pId;
@@ -52,9 +79,9 @@ public class VOMovingViolations {
 	}
 	
 	/**
-	 * @return totalPaid - Cuanto dinero efectivamente pagÃ³ el que recibiÃ³ la infracciÃ³n en USD.
+	 * @return FINEAMT - Cantidad a pagar po la infraccion en USD
 	 */
-	public int getTotalPaid() {
+	public int getFineAMT() {
 		
 		return total;
 	}

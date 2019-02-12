@@ -18,7 +18,7 @@ public class VODaylyStatistic {
 	private int cantInfracciones;
 	
 	/**
-	 * Atributo que da el precio total de las infracciones del día
+	 * Atributo que da el precio total de las infracciones del día (FINEAMT)
 	 */
 	private int totalPagado;
 	

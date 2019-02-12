@@ -1,5 +1,6 @@
 package view;
 
+import controller.Controller;
 import model.data_structures.IQueue;
 import model.data_structures.IStack;
 import model.vo.VODaylyStatistic;
@@ -7,6 +8,7 @@ import model.vo.VOMovingViolations;
 
 public class MovingViolationsManagerView 
 {
+	private Controller controlador;
 	public MovingViolationsManagerView() {
 		
 	}
@@ -26,8 +28,12 @@ public class MovingViolationsManagerView
 		System.out.println("Se encontraron "+ dailyStatistics.size() + " elementos");
 		for (VODaylyStatistic dayStatistic : dailyStatistics) 
 		{
+			String fechaEstadistica = controlador.formatearFecha(dayStatistic.darFecha());
+			String accidentes = Integer.toString(dayStatistic.darAccidentes());
+			String infracciones = Integer.toString(dayStatistic.darInfracciones());
+			String multasTotal = Integer.toString(dayStatistic.darCostoInfracciones());
 			//TODO
-			System.out.println("2018-01-01 - accidentes:	100,	infracciones:	200,	multas totales:	$10,000  " );;
+			System.out.println(fechaEstadistica + " - accidentes: "	+ accidentes +", " + "infracciones: " + infracciones + ", " + "multas totales: " + "$" + multasTotal );
 		}
 	}
 	

@@ -3,6 +3,7 @@ package controller;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.Iterator;
 import java.util.Scanner;
 
 import com.opencsv.CSVReader;
@@ -89,37 +90,38 @@ public class Controller {
 	public void loadMovingViolations() {
 		
 		try {
-			CSVReader lector = new CSVReader(new FileReader(ruta1));
-			String[] nextLineQueue = lector.readNext();
-			while((nextLineQueue = lector.readNext()) != null){
-				String id = nextLineQueue[0];
+			CSVReader lector = new CSVReader(new FileReader(ruta2));
+			String[] nextLineR1 = lector.readNext();
+			while((nextLineR1 = lector.readNext()) != null){
+				String id = nextLineR1[0];
 				int idObjeto = Integer.parseInt(id);
-				String location = nextLineQueue[2];
-				String fecha = nextLineQueue[14];
-				String total = nextLineQueue[9];
+				String location = nextLineR1[2];
+				String fecha = nextLineR1[13];
+				String total = nextLineR1[8];
 				int totalObjeto = Integer.parseInt(total);
-				String indicator = nextLineQueue[12];
-				String description = nextLineQueue[15];
+				String indicator = nextLineR1[12];
+				String description = nextLineR1[15];
 				movingViolationsQueue.enqueue(new VOMovingViolations(idObjeto, location, fecha, totalObjeto, indicator, description));
 				movingViolationsStack.push(new VOMovingViolations(idObjeto, location, fecha, totalObjeto, indicator, description));
-				System.out.println(movingViolationsStack.size());
-
+				
 			}
 			
-			CSVReader lector2 = new CSVReader(new FileReader(ruta2));
-			String[] nextLineStack = lector2.readNext();
-			while((nextLineStack = lector2.readNext()) != null){
-				String id = nextLineStack[0];
-				int idObjeto = Integer.parseInt(id);
-				String location = nextLineStack[2];
-				String fecha = nextLineStack[14];
-				String total = nextLineStack[9];
-				int totalObjeto = Integer.parseInt(total);
-				String indicator = nextLineStack[12];
-				String description = nextLineStack[15];
-				movingViolationsQueue.enqueue(new VOMovingViolations(idObjeto, location, fecha, totalObjeto, indicator, description));
-				movingViolationsStack.push(new VOMovingViolations(idObjeto, location, fecha, totalObjeto, indicator, description));
-			}
+//			CSVReader lector2 = new CSVReader(new FileReader(ruta1));
+//			String[] nextLineR2 = lector2.readNext();
+//			while((nextLineR2 = lector2.readNext()) != null){
+//				String id = nextLineR2[0];
+//				int idObjeto = Integer.parseInt(id);
+//				String location = nextLineR2[2];
+//				String fecha = nextLineR2[14];
+//				String total = nextLineR2[9];
+//				int totalObjeto = Integer.parseInt(total);
+//				String indicator = nextLineR2[12];
+//				String description = nextLineR2[15];
+//				movingViolationsQueue.enqueue(new VOMovingViolations(idObjeto, location, fecha, totalObjeto, indicator, description));
+//				movingViolationsStack.push(new VOMovingViolations(idObjeto, location, fecha, totalObjeto, indicator, description));
+//				
+//			}
+			
 		} catch (FileNotFoundException e) {
 			
 			e.printStackTrace();
@@ -131,14 +133,73 @@ public class Controller {
 	}
 	
 	public IQueue <VODaylyStatistic> getDailyStatistics () {
-		Cola<VODaylyStatistic> cola = new Cola<VODaylyStatistic>();
 		
-		return cola;
+		Cola<VODaylyStatistic> cola = new Cola<VODaylyStatistic>();
+		Iterator<VOMovingViolations> it = movingViolationsQueue.iterator();
+		
+		String fecha = null;
+		int totalAccidentes = 0;
+		int totalInfracciones = 0;
+		int totalPagarDia = 0;
+		
+		while(it.hasNext()){
+			
+			VOMovingViolations actual = it.next();
+			totalInfracciones++;
+			
+			if(fecha == null){
+				fecha = actual.getTicketIssueDate();
+			}
+			
+			if(fecha.equals(actual.getTicketIssueDate())){
+				totalPagarDia += actual.getFineAMT();
+				if(actual.getAccidentIndicator().equals("Yes")){
+					totalAccidentes++;
+				}
+				
+			}
+			
+			else{
+				String fechaObjeto = formatearFecha(fecha);
+				cola.enqueue(new VODaylyStatistic(fechaObjeto, totalAccidentes, totalInfracciones, totalPagarDia));
+				fecha = actual.getTicketIssueDate();
+				
+				totalPagarDia = 0;
+				totalAccidentes = 0;
+				
+				if(actual.getAccidentIndicator().equals("Yes")){
+					totalAccidentes = 1;
+				}
+
+				totalInfracciones = 1;
+				totalPagarDia += actual.getFineAMT();
+			}
+		}
+		
+		if(fecha != null){
+			String fechaObjeto = formatearFecha(fecha);
+			cola.enqueue(new VODaylyStatistic(fechaObjeto, totalAccidentes, totalInfracciones, totalPagarDia));
+		}
+		
+		return cola ;
 	}
 	
 	public IStack <VOMovingViolations> nLastAccidents(int n) {
 		Pila<VOMovingViolations> pila = new Pila<VOMovingViolations>();
+		Iterator<VOMovingViolations> it = movingViolationsStack.iterator();
+		int cont = 0;
+		
+		while(it.hasNext() && cont<n){
+			
+		}
 		
 		return pila;
+	}
+	
+	public String formatearFecha(String pFecha){
+		
+		String fechaFormateada = pFecha.substring(0,10);
+		
+		return fechaFormateada;
 	}
 }
