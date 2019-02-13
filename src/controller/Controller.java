@@ -91,22 +91,22 @@ public class Controller {
 	public void loadMovingViolations() {
 		
 		try {
-//			CSVReader lector = new CSVReader(new FileReader(ruta2));
-//			String[] nextLineR1 = lector.readNext();
-//			while((nextLineR1 = lector.readNext()) != null){
-//				String id = nextLineR1[0];
-//				int idObjeto = Integer.parseInt(id);
-//				String location = nextLineR1[2];
-//				String fecha = nextLineR1[13];
-//				String total = nextLineR1[8];
-//				int totalObjeto = Integer.parseInt(total);
-//				String indicator = nextLineR1[12];
-//				String description = nextLineR1[15];
-//				movingViolationsQueue.enqueue(new VOMovingViolations(idObjeto, location, fecha, totalObjeto, indicator, description));
-//				movingViolationsStack.push(new VOMovingViolations(idObjeto, location, fecha, totalObjeto, indicator, description));
-//				
-//			}
-//			
+			CSVReader lector = new CSVReader(new FileReader(ruta2));
+			String[] nextLineR1 = lector.readNext();
+			while((nextLineR1 = lector.readNext()) != null){
+				String id = nextLineR1[0];
+				int idObjeto = Integer.parseInt(id);
+				String location = nextLineR1[2];
+				String fecha = nextLineR1[13];
+				String total = nextLineR1[8];
+				int totalObjeto = Integer.parseInt(total);
+				String indicator = nextLineR1[12];
+				String description = nextLineR1[15];
+				movingViolationsQueue.enqueue(new VOMovingViolations(idObjeto, location, fecha, totalObjeto, indicator, description));
+				movingViolationsStack.push(new VOMovingViolations(idObjeto, location, fecha, totalObjeto, indicator, description));
+				
+			}
+			
 			CSVReader lector2 = new CSVReader(new FileReader(ruta1));
 			String[] nextLineR2 = lector2.readNext();
 			while((nextLineR2 = lector2.readNext()) != null){
@@ -120,7 +120,6 @@ public class Controller {
 				String description = nextLineR2[15];
 				movingViolationsQueue.enqueue(new VOMovingViolations(idObjeto, location, fecha, totalObjeto, indicator, description));
 				movingViolationsStack.push(new VOMovingViolations(idObjeto, location, fecha, totalObjeto, indicator, description));
-				System.out.println(idObjeto + fecha + location);
 				
 			}
 			
@@ -162,8 +161,8 @@ public class Controller {
 			}
 			
 			else{
-				String fechaObjeto = formatearFecha(fecha);
-				cola.enqueue(new VODaylyStatistic(fechaObjeto, totalAccidentes, totalInfracciones, totalPagarDia));
+				//String fechaObjeto = formatearFecha(fecha);
+				cola.enqueue(new VODaylyStatistic(fecha, totalAccidentes, totalInfracciones, totalPagarDia));
 				fecha = actual.getTicketIssueDate();
 				
 				totalPagarDia = 0;
@@ -179,8 +178,8 @@ public class Controller {
 		}
 		
 		if(fecha != null){
-			String fechaObjeto = formatearFecha(fecha);
-			cola.enqueue(new VODaylyStatistic(fechaObjeto, totalAccidentes, totalInfracciones, totalPagarDia));
+			//String fechaObjeto = formatearFecha(fecha);
+			cola.enqueue(new VODaylyStatistic(fecha, totalAccidentes, totalInfracciones, totalPagarDia));
 		}
 		return cola ;
 	}
