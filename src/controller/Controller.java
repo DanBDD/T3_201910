@@ -91,35 +91,36 @@ public class Controller {
 	public void loadMovingViolations() {
 		
 		try {
-			CSVReader lector = new CSVReader(new FileReader(ruta2));
-			String[] nextLineR1 = lector.readNext();
-			while((nextLineR1 = lector.readNext()) != null){
-				String id = nextLineR1[0];
-				int idObjeto = Integer.parseInt(id);
-				String location = nextLineR1[2];
-				String fecha = nextLineR1[13];
-				String total = nextLineR1[8];
-				int totalObjeto = Integer.parseInt(total);
-				String indicator = nextLineR1[12];
-				String description = nextLineR1[15];
-				movingViolationsQueue.enqueue(new VOMovingViolations(idObjeto, location, fecha, totalObjeto, indicator, description));
-				movingViolationsStack.push(new VOMovingViolations(idObjeto, location, fecha, totalObjeto, indicator, description));
-				
-			}
-			
+//			CSVReader lector = new CSVReader(new FileReader(ruta2));
+//			String[] nextLineR1 = lector.readNext();
+//			while((nextLineR1 = lector.readNext()) != null){
+//				String id = nextLineR1[0];
+//				int idObjeto = Integer.parseInt(id);
+//				String location = nextLineR1[2];
+//				String fecha = nextLineR1[13];
+//				String total = nextLineR1[8];
+//				int totalObjeto = Integer.parseInt(total);
+//				String indicator = nextLineR1[12];
+//				String description = nextLineR1[15];
+//				movingViolationsQueue.enqueue(new VOMovingViolations(idObjeto, location, fecha, totalObjeto, indicator, description));
+//				movingViolationsStack.push(new VOMovingViolations(idObjeto, location, fecha, totalObjeto, indicator, description));
+//				
+//			}
+//			
 			CSVReader lector2 = new CSVReader(new FileReader(ruta1));
 			String[] nextLineR2 = lector2.readNext();
 			while((nextLineR2 = lector2.readNext()) != null){
 				String id = nextLineR2[0];
 				int idObjeto = Integer.parseInt(id);
 				String location = nextLineR2[2];
-				String fecha = nextLineR2[14];
-				String total = nextLineR2[9];
+				String fecha = nextLineR2[13];
+				String total = nextLineR2[8];
 				int totalObjeto = Integer.parseInt(total);
 				String indicator = nextLineR2[12];
 				String description = nextLineR2[15];
 				movingViolationsQueue.enqueue(new VOMovingViolations(idObjeto, location, fecha, totalObjeto, indicator, description));
 				movingViolationsStack.push(new VOMovingViolations(idObjeto, location, fecha, totalObjeto, indicator, description));
+				System.out.println(idObjeto + fecha + location);
 				
 			}
 			
