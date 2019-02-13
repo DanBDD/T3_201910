@@ -5,6 +5,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.Iterator;
 import java.util.Scanner;
+import java.util.Stack;
 
 import com.opencsv.CSVReader;
 
@@ -180,23 +181,20 @@ public class Controller {
 			String fechaObjeto = formatearFecha(fecha);
 			cola.enqueue(new VODaylyStatistic(fechaObjeto, totalAccidentes, totalInfracciones, totalPagarDia));
 		}
-		
 		return cola ;
 	}
 	
-	public IStack <VOMovingViolations> nLastAccidents(int n) {
-		Pila<VOMovingViolations> pila = new Pila<VOMovingViolations>();
+	public IStack<VOMovingViolations> nLastAccidents(int n) {
+		IStack<VOMovingViolations> pila = new Pila<VOMovingViolations>();
 		Iterator<VOMovingViolations> it = movingViolationsStack.iterator();
 		int cont = 0;
 		
 		while(it.hasNext() && cont<n){
 			VOMovingViolations actual = it.next();
-			if(actual.getAccidentIndicator().equals("Yes")){
 				pila.push(actual);
 				cont++;
-			}
+			
 		}
-		
 		return pila;
 	}
 	
