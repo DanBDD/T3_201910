@@ -28,12 +28,11 @@ public class MovingViolationsManagerView
 		System.out.println("Se encontraron "+ dailyStatistics.size() + " elementos");
 		for (VODaylyStatistic dayStatistic : dailyStatistics) 
 		{
-			System.out.println(dayStatistic.darFecha());
-			//String fechaEstadistica = controlador.formatearFecha(dayStatistic.darFecha());
+			
 			String accidentes = Integer.toString(dayStatistic.darAccidentes());
 			String infracciones = Integer.toString(dayStatistic.darInfracciones());
 			String multasTotal = Integer.toString(dayStatistic.darCostoInfracciones());
-			//TODO
+			
 			System.out.println(dayStatistic.darFecha() + " - accidentes: "	+ accidentes +", " + "infracciones: " + infracciones + ", " + "multas totales: " + "$" + multasTotal );
 		}
 	}
