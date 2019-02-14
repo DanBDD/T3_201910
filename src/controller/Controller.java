@@ -104,27 +104,27 @@ public class Controller {
 				String indicator = nextLineR1[12];
 				String description = nextLineR1[15];
 				movingViolationsQueue.enqueue(new VOMovingViolations(idObjeto, location, fechaFormato, totalObjeto, indicator, description));
-				movingViolationsStack.push(new VOMovingViolations(idObjeto, location, fecha, totalObjeto, indicator, description));
-				System.out.println(fechaFormato);
+				movingViolationsStack.push(new VOMovingViolations(idObjeto, location, fechaFormato, totalObjeto, indicator, description));
+				
 			}
 			lector.close();
-//			CSVReader lector2 = new CSVReader(new FileReader(ruta1));
-//			String[] nextLineR2 = lector2.readNext();
-//			while((nextLineR2 = lector2.readNext()) != null){
-//				String id = nextLineR2[0];
-//				int idObjeto = Integer.parseInt(id);
-//				String location = nextLineR2[2];
-//				String fecha = nextLineR2[13];
-//				String fechaFormato = formatearFecha(fecha);
-//				String total = nextLineR2[8];
-//				int totalObjeto = Integer.parseInt(total);
-//				String indicator = nextLineR2[12];
-//				String description = nextLineR2[15];
-//				movingViolationsQueue.enqueue(new VOMovingViolations(idObjeto, location, fechaFormato, totalObjeto, indicator, description));
-//				movingViolationsStack.push(new VOMovingViolations(idObjeto, location, fecha, totalObjeto, indicator, description));
-//				System.out.println(fechaFormato);
-//			}
-//			lector2.close();
+			CSVReader lector2 = new CSVReader(new FileReader(ruta1));
+			String[] nextLineR2 = lector2.readNext();
+			while((nextLineR2 = lector2.readNext()) != null){
+				String id = nextLineR2[0];
+				int idObjeto = Integer.parseInt(id);
+				String location = nextLineR2[2];
+				String fecha = nextLineR2[13];
+				String fechaFormato = formatearFecha(fecha);
+				String total = nextLineR2[8];
+				int totalObjeto = Integer.parseInt(total);
+				String indicator = nextLineR2[12];
+				String description = nextLineR2[15];
+				movingViolationsQueue.enqueue(new VOMovingViolations(idObjeto, location, fechaFormato, totalObjeto, indicator, description));
+				movingViolationsStack.push(new VOMovingViolations(idObjeto, location, fechaFormato, totalObjeto, indicator, description));
+				
+			}
+			lector2.close();
 		} catch (FileNotFoundException e) {
 			
 			e.printStackTrace();
@@ -189,24 +189,18 @@ public class Controller {
 	
 	public IStack<VOMovingViolations> nLastAccidents(int n) {
 		IStack<VOMovingViolations> pila = new Pila<VOMovingViolations>();
-		IStack<VOMovingViolations> pilaRetorno = new Pila<VOMovingViolations>();
 		Iterator<VOMovingViolations> it = movingViolationsStack.iterator();
 		int cont = 0;
 		
 		while(it.hasNext() && cont<n){
 			VOMovingViolations actual = it.next();
+			if(actual.getAccidentIndicator().equals("Yes")){
 				pila.push(actual);
 				cont++;
-			
+			}
 		}
-		Iterator<VOMovingViolations> iter = pila.iterator();
-		
-		while(iter.hasNext()){
-			
-			VOMovingViolations pop = pila.pop();
-			pilaRetorno.push(pop);
-		}
-		return pilaRetorno;
+
+		return pila;
 	}
 	
 	public String formatearFecha(String pFecha){
